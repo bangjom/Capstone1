@@ -14,6 +14,7 @@ public class Category {
     @Column(name = "category_id")
     private Long id;
 
+    @Column(name="name", nullable = false)
     private String name;
 
     @ManyToOne(fetch=FetchType.LAZY)

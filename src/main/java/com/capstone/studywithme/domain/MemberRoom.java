@@ -1,27 +1,30 @@
 package com.capstone.studywithme.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Getter @Setter
-@Table(name = "memberRooms")
+@Table(name = "members_rooms")
+@NoArgsConstructor(access =  AccessLevel.PROTECTED)
 public class MemberRoom {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "memberRoom_id")
+    @Column(name = "member_room_id")
     private long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Column(name = "authority", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Authority authority;
+    private AuthorityStatus status;
 }

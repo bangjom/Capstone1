@@ -16,10 +16,10 @@ public class Member {
     @Column(name = "member_id")
     private long id;
 
-    @Column(name = "email", nullable = false, length = 255)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "password", nullable = false, length = 255)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "created_at", nullable = false)

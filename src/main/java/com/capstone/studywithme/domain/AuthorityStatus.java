@@ -1,5 +1,5 @@
 package com.capstone.studywithme.domain;
 
-public enum Authority {
+public enum AuthorityStatus {
     ROLE_USER, ROLE_HOST;
 }

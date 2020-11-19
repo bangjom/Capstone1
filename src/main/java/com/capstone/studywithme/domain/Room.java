@@ -14,10 +14,10 @@ public class Room {
     @Column(name = "room_id")
     private long id;
 
-    @Column(name = "passcode", nullable = false, length = 255)
+    @Column(name = "passcode", nullable = false)
     private String passcode;
 
-    @Column(name= "invite_link", nullable = false, length = 255)
+    @Column(name= "invite_link", nullable = false)
     private String invite_link;
 
     @Column(name = "is_pivate", nullable = false)

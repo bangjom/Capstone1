@@ -15,5 +15,6 @@ public class Board {
     @Column(name = "board_id")
     private Long id;
 
+    @Column(name="name", nullable = false)
     private String name;
 }
