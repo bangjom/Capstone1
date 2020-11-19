@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter @Setter
+@Table(name="boards")
 public class Board {
 
     @Id
