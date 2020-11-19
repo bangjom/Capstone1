@@ -4,30 +4,32 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Clob;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
-@Table(name = "rooms")
-public class Room {
+@Table(name = "messages")
+public class Message {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "room_id")
+    @Column(name = "message_id")
     private long id;
 
-    @Column(name = "passcode", nullable = false, length = 255)
-    private String passcode;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id")
+    private Room room;
 
-    @Column(name= "invite_link", nullable = false, length = 255)
-    private String invite_link;
+    @Lob
+    @Column(name = "content", nullable = false)
+    private String content;
 
-    @Column(name = "is_pivate", nullable = false)
-    private boolean is_private;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime created_at;
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updated_at;
-
-
 }
