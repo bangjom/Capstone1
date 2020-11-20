@@ -20,16 +20,16 @@ public class Message {
     private Room room;
 
     @Lob
-    @Column(name = "content", nullable = false)
+    @Column(name = "content")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private LocalDateTime created_at;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     private LocalDateTime updated_at;
 }

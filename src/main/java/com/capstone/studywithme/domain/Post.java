@@ -15,7 +15,7 @@ public class Post {
     @Column(name="post_id")
     private Long id;
 
-    @Column(name="name", nullable = false)
+    @Column(name="name")
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,10 +26,10 @@ public class Post {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private LocalDateTime created_at;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     private LocalDateTime updated_at;
 
 

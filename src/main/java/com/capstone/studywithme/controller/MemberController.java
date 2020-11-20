@@ -65,8 +65,11 @@ public class MemberController {
 
     @Data
     static class CreateMemberRequest {
+
         @NotEmpty
         private String email;
+
+        @NotEmpty
         private String password;
     }
 

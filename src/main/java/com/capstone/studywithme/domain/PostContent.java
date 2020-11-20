@@ -19,6 +19,6 @@ public class PostContent {
     private Post post;
 
     @Lob
-    @Column(name="content", nullable = false)
+    @Column(name="content")
     private String content;
 }

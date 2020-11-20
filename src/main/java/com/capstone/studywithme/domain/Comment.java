@@ -15,7 +15,7 @@ public class Comment {
     @Column(name = "comment_id")
     private Long id;
 
-    @Column(name="content",nullable = false)
+    @Column(name="content")
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,9 +26,9 @@ public class Comment {
     @JoinColumn(name="post_id")
     private Post post;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private LocalDateTime created_at;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     private LocalDateTime updated_at;
 }
