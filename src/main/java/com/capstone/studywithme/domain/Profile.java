@@ -14,13 +14,13 @@ public class Profile {
     @Column(name = "profile_id")
     private long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "thumbnail", nullable = false)
+    @Column(name = "thumbnail")
     private String thumbnail;
 
-    @Column(name = "phone", nullable = true)
+    @Column(name = "phone")
     private String phone;
 
     @OneToOne(fetch=FetchType.LAZY)

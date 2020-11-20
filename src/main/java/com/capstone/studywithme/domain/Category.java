@@ -14,7 +14,7 @@ public class Category {
     @Column(name = "category_id")
     private Long id;
 
-    @Column(name="name", nullable = false)
+    @Column(name="name")
     private String name;
 
     @ManyToOne(fetch=FetchType.LAZY)

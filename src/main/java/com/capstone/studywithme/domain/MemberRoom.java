@@ -24,7 +24,7 @@ public class MemberRoom {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(name = "authority", nullable = false)
+    @Column(name = "authority")
     @Enumerated(EnumType.STRING)
     private AuthorityStatus status;
 }
