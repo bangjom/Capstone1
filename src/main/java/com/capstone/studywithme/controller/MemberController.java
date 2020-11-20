@@ -30,6 +30,12 @@ public class MemberController {
         return new CreateMemberResponse(id);
     }
 
+    @PostMapping("/account/log-in")
+    public SearchMemberResponse login(@RequestBody @Valid SearchMemberRequest request){
+        Member findmember = memberService.authenticate(request.getEmail(), request.getPassword());
+        return  new SearchMemberResponse(findmember.getId(),findmember.getEmail());
+    }
+
     @GetMapping("/members")
     public Result memberV2(){
         List<Member> findMembers = memberService.findMembers();
@@ -90,4 +96,20 @@ public class MemberController {
         private Long id;
         private String email;
     }
+
+    @Data
+    @AllArgsConstructor
+    static class SearchMemberRequest {
+        private String email;
+        private String password;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class SearchMemberResponse{
+        private Long id;
+        private String email;
+
+    }
+
 }

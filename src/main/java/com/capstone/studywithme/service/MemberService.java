@@ -1,5 +1,6 @@
 package com.capstone.studywithme.service;
 
+import com.capstone.studywithme.Exception.PasswordWrongException;
 import com.capstone.studywithme.domain.Member;
 import com.capstone.studywithme.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,18 @@ public class MemberService {
         return member.getId();
     }
 
+    @Transactional
+    public Member authenticate(String email, String password){
+
+        List<Member> findMembers = memberRepository.findByEmail(email);
+        if(findMembers.isEmpty()){
+            throw new IllegalStateException("존재하지 않는 회원입니다.");
+        }
+        if(!passwordEncoder.matches(password,findMembers.get(0).getPassword())){
+            throw new PasswordWrongException();
+        }
+        return findMembers.get(0);
+    }
     private void validateDuplicateMember(Member member){
 
         List<Member> findMembers = memberRepository.findByEmail(member.getEmail());
