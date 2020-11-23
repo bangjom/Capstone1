@@ -16,14 +16,14 @@ public class Room {
 
     @Column(name="name")
     private String name;
-    
+
     @Column(name = "passcode")
     private String passcode;
 
     @Column(name= "invite_link")
     private String invite_link;
 
-    @Column(name = "is_pivate")
+    @Column(name = "is_private")
     private Boolean is_private;
 
     @Column(name = "created_at")
