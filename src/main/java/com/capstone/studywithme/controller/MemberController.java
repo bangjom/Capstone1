@@ -2,13 +2,16 @@ package com.capstone.studywithme.controller;
 
 import com.capstone.studywithme.domain.Member;
 import com.capstone.studywithme.service.MemberService;
+import com.capstone.studywithme.utils.JwtUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,8 +22,10 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    private final JwtUtil jwtUtil;
+
     @PostMapping("/account/join")
-    public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequest request){
+    public CreateMemberResponse signup(@RequestBody @Valid CreateMemberRequest request){
         Member member = new Member();
         member.setEmail(request.getEmail());
         member.setPassword(request.getPassword());
@@ -31,13 +36,14 @@ public class MemberController {
     }
 
     @PostMapping("/account/log-in")
-    public SearchMemberResponse login(@RequestBody @Valid SearchMemberRequest request){
+    public SearchMemberResponse login(@RequestBody @Valid SearchMemberRequest request) throws URISyntaxException {
         Member findmember = memberService.authenticate(request.getEmail(), request.getPassword());
-        return  new SearchMemberResponse(findmember.getId(),findmember.getEmail());
+        String accessToken = jwtUtil.createToken(findmember.getId(), findmember.getEmail());
+        return new SearchMemberResponse(accessToken);
     }
 
     @GetMapping("/members")
-    public Result memberV2(){
+    public Result searchMember(){
         List<Member> findMembers = memberService.findMembers();
         List<MemberDto> collect = findMembers.stream()
                 .map(m -> new MemberDto(m.getEmail()))
@@ -46,7 +52,7 @@ public class MemberController {
     }
 
     @PutMapping("/members/{id}")
-    public UpdateMemberResponse updateMemberV2(
+    public UpdateMemberResponse updateMember(
             @PathVariable("id") Long id,
             @RequestBody @Valid UpdateMemberRequest request) {
         memberService.update(id, request.getEmail());
@@ -107,9 +113,7 @@ public class MemberController {
     @Data
     @AllArgsConstructor
     static class SearchMemberResponse{
-        private Long id;
-        private String email;
-
+        private String accessToken;
     }
 
 }

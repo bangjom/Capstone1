@@ -11,3 +11,19 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+
+jwt:
+  secret: bjandjhbackendssusoftware12345678901234567890
+
+server:
+  port: 5000
+  ssl:
+    enabled: true
+    key-store: classpath:openvidu-selfsigned.jks
+    key-store-password: openvidu
+    key-store-type: JKS
+    key-alias: openvidu-selfsigned
+
+openvidu:
+  url: https://localhost:4443/
+  secret: MY_SECRET
