@@ -20,4 +20,5 @@ public class Category {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
+
 }

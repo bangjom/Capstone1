@@ -24,7 +24,7 @@ public class MemberController {
 
     private final JwtUtil jwtUtil;
 
-    @PostMapping("/account/join")
+    @PostMapping("/account/signup")
     public CreateMemberResponse signup(@RequestBody @Valid CreateMemberRequest request){
         Member member = new Member();
         member.setEmail(request.getEmail());
@@ -35,8 +35,8 @@ public class MemberController {
         return new CreateMemberResponse(id);
     }
 
-    @PostMapping("/account/log-in")
-    public SearchMemberResponse login(@RequestBody @Valid SearchMemberRequest request) throws URISyntaxException {
+    @PostMapping("/account/signin")
+    public SearchMemberResponse signin(@RequestBody @Valid SearchMemberRequest request) {
         Member findmember = memberService.authenticate(request.getEmail(), request.getPassword());
         String accessToken = jwtUtil.createToken(findmember.getId(), findmember.getEmail());
         return new SearchMemberResponse(accessToken);
@@ -49,6 +49,12 @@ public class MemberController {
                 .map(m -> new MemberDto(m.getEmail()))
                 .collect(Collectors.toList());
         return new Result(collect.size(),collect);
+    }
+
+    @GetMapping("/member")
+    public CreateMemberResponse searchOneMember(@RequestParam("id") Long id){
+        Member one = memberService.findOne(id);
+        return new CreateMemberResponse(one.getId());
     }
 
     @PutMapping("/members/{id}")
