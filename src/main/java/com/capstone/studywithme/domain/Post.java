@@ -23,8 +23,8 @@ public class Post {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id")
-    private Room room;
+    @JoinColumn(name = "board_id")
+    private Board board;
 
     @Column(name = "created_at")
     private LocalDateTime created_at;

@@ -51,6 +51,8 @@ public class MemberService {
 
     public Member findOne(Long memberId){return memberRepository.findOne(memberId);}
 
+    public Member findOneByEmial(String email){return memberRepository.findByEmail(email).get(0);}
+
     @Transactional
     public void update(Long id, String email) {
         Member member = memberRepository.findOne(id);

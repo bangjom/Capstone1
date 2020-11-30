@@ -110,7 +110,6 @@ public class MemberController {
     }
 
     @Data
-    @AllArgsConstructor
     static class SearchMemberRequest {
         private String email;
         private String password;

@@ -22,10 +22,14 @@ public class RoomService {
 
     @Transactional
     public Room authenticate(String name, String password){
-
+        System.out.println(name+" "+password);
         List<Room> findRooms = roomRepository.findByName(name);
+        System.out.println(findRooms.get(0).getName());
         if(findRooms.isEmpty()){
-            throw new IllegalStateException("존재하지 않는 입니다.");
+            throw new IllegalStateException("존재하지 않는 방 입니다.");
+        }
+        if(!findRooms.isEmpty() && !findRooms.get(0).getIs_private()){
+            return findRooms.get(0);
         }
         if(!passwordEncoder.matches(password,findRooms.get(0).getPasscode())){
             throw new PasswordWrongException();
