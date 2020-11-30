@@ -7,6 +7,7 @@ import com.capstone.studywithme.domain.Post;
 import com.capstone.studywithme.domain.PostContent;
 import com.capstone.studywithme.service.BoardService;
 import com.capstone.studywithme.service.MemberService;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -42,6 +43,8 @@ public class BoardController {
         post.setMember(findmember);
         post.setName(request.getName());
         post.setBoard(findboard);
+        post.setCreated_at(LocalDateTime.now());
+        post.setUpdated_at(LocalDateTime.now());
         Long postId = boardService.creatPost(post);
         postContent.setPost(post);
         postContent.setContent(request.getContent());
@@ -67,9 +70,10 @@ public class BoardController {
     @Data
     @AllArgsConstructor
     public static class PostDto{
-        private String name;
+        private String title;
         private String email;
         private String content;
+        private LocalDateTime date;
     }
 
     @Data

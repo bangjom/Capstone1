@@ -39,7 +39,7 @@ public class BoardRepository {
             .getResultList()
             .stream()
             .map(m -> {
-                return new PostDto(m.getPost().getName(),m.getPost().getMember().getEmail(),m.getContent());
+                return new PostDto(m.getPost().getName(),m.getPost().getMember().getEmail(),m.getContent(),m.getPost().getCreated_at());
             })
             .collect(Collectors.toList());
     }
