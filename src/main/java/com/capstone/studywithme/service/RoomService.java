@@ -1,5 +1,7 @@
 package com.capstone.studywithme.service;
 
+import com.capstone.studywithme.Exception.PasswordWrongException;
+import com.capstone.studywithme.domain.Member;
 import com.capstone.studywithme.domain.Room;
 import com.capstone.studywithme.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,19 @@ import java.util.List;
 public class RoomService {
     private final RoomRepository roomRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Transactional
+    public Room authenticate(String name, String password){
+
+        List<Room> findRooms = roomRepository.findByName(name);
+        if(findRooms.isEmpty()){
+            throw new IllegalStateException("존재하지 않는 입니다.");
+        }
+        if(!passwordEncoder.matches(password,findRooms.get(0).getPasscode())){
+            throw new PasswordWrongException();
+        }
+        return findRooms.get(0);
+    }
 
     @Transactional
     public Long makeRoom(Room room){
@@ -43,6 +58,8 @@ public class RoomService {
     }
 
     public List<Room> findRooms(){return roomRepository.findAll();}
+
+    public Room findOneByName(String name){return roomRepository.findByName(name).get(0);}
 
     public Room findOne(Long roomId){return roomRepository.findOne(roomId);}
 

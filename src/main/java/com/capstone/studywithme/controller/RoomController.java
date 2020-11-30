@@ -19,7 +19,13 @@ import java.util.stream.Collectors;
 public class RoomController {
     private final RoomService roomService;
 
-    @PostMapping("/make/room")
+    @PostMapping("/room/join")
+    public JoinRoomResponse joinRoom(@RequestBody JoinRoomRequest request){
+        Room findRoom = roomService.authenticate(request.getName(), request.getPasscode());
+        return new JoinRoomResponse(findRoom.getId(), findRoom.getName());
+    }
+
+    @PostMapping("/room")
     public CreateRoomResponse makeRoom(@RequestBody CreateRoomRequest request){
         Room room = new Room();
         room.setName(request.getName());
@@ -46,12 +52,12 @@ public class RoomController {
     public Result checkRoom(){
         List<Room> findRooms= roomService.findRooms();
         List<RoomController.RoomDto> collect = findRooms.stream()
-                .map(m -> new RoomController.RoomDto(m.getName()))
+                .map(m -> new RoomController.RoomDto(m.getName(),m.getIs_private()))
                 .collect(Collectors.toList());
         return new Result(collect.size(),collect);
     }
 
-    @PutMapping("/rooms/{id}")
+    @PutMapping("/room/{id}")
     public UpdateRoomResponse updateRoom(
             @PathVariable("id") Long id,
             @RequestBody UpdateRoomRequest request){
@@ -71,6 +77,7 @@ public class RoomController {
     @AllArgsConstructor
     static class RoomDto{
         private String name;
+        private boolean pass;
     }
 
     @Data
@@ -79,6 +86,26 @@ public class RoomController {
         private Long id;
         private String name;
     }
+
+    @Data
+    @AllArgsConstructor
+    static class JoinRoomResponse{
+        private Long id;
+        private String name;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class JoinRoomRequest{
+        @NotEmpty
+        private String name;
+
+        private String passcode;
+
+        @NotEmpty
+        private Boolean is_private;
+    }
+
 
     @Data
     @AllArgsConstructor
@@ -105,6 +132,12 @@ public class RoomController {
         private String name;
         private String passcode;
         private Boolean is_private;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class Error{
+        private String error;
     }
 
 }
