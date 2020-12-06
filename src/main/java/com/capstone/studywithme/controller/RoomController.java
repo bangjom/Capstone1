@@ -2,6 +2,7 @@ package com.capstone.studywithme.controller;
 
 import com.capstone.studywithme.domain.Member;
 import com.capstone.studywithme.domain.Room;
+import com.capstone.studywithme.service.MemberService;
 import com.capstone.studywithme.service.RoomService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class RoomController {
 
     @PostMapping("/room/join")
     public JoinRoomResponse joinRoom(@RequestBody JoinRoomRequest request){
-        Room findRoom = roomService.authenticate(request.getName(), request.getPasscode());
+        Room findRoom = roomService.authenticate(request.getEmail(), request.getName(), request.getPasscode());
         return new JoinRoomResponse(findRoom.getId(), findRoom.getName());
     }
 
@@ -44,7 +45,7 @@ public class RoomController {
         room.setIs_private(request.getIs_private());
         room.setCreated_at(LocalDateTime.now());
         room.setUpdated_at(LocalDateTime.now());
-        Long id = roomService.makeRoom(room);
+        Long id = roomService.makeRoom(request.getEmail(), room);
         return new CreateRoomResponse(id,room.getName());
     }
 
@@ -100,6 +101,9 @@ public class RoomController {
         @NotEmpty
         private String name;
 
+        @NotEmpty
+        private String email;
+
         private String passcode;
 
         @NotEmpty
@@ -114,6 +118,9 @@ public class RoomController {
         private String name;
 
         private String passcode;
+
+        @NotEmpty
+        private String email;
 
         @NotEmpty
         private Boolean is_private;

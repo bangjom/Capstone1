@@ -25,6 +25,9 @@ public class Member {
     @Column(name = "created_at")
     private LocalDateTime created_at;
 
+    @Column(name = "coin")
+    private Long coin;
+
     @Column(name = "updated_at")
     private LocalDateTime updated_at;
 
