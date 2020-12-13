@@ -18,10 +18,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoomService {
     private final RoomRepository roomRepository;
+    private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public Room authenticate(String name, String password){
+    public Room authenticate(String email, String name, String password){
         System.out.println(name+" "+password);
         List<Room> findRooms = roomRepository.findByName(name);
         System.out.println(findRooms.get(0).getName());
@@ -34,11 +35,12 @@ public class RoomService {
         if(!passwordEncoder.matches(password,findRooms.get(0).getPasscode())){
             throw new PasswordWrongException();
         }
+        memberService.updateCoin(memberService.findOneByEmail(email), Long.valueOf(-100));
         return findRooms.get(0);
     }
 
     @Transactional
-    public Long makeRoom(Room room){
+    public Long makeRoom(String email, Room room){
         validateDuplicateRoom(room);
 
         if(room.getIs_private() == true) {
@@ -46,6 +48,7 @@ public class RoomService {
                 room.setPasscode(passwordEncoder.encode(room.getPasscode()));
             else
                 room.setPasscode("");
+            memberService.updateCoin(memberService.findOneByEmail(email), Long.valueOf(-200));
         }
         else
             room.setPasscode(null);

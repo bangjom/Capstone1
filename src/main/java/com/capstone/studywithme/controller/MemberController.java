@@ -31,6 +31,7 @@ public class MemberController {
         member.setPassword(request.getPassword());
         member.setCreated_at(LocalDateTime.now());
         member.setUpdated_at(LocalDateTime.now());
+        member.setCoin(Long.valueOf(10000));
         Long id = memberService.join(member);
         return new CreateMemberResponse(id);
     }
@@ -63,7 +64,7 @@ public class MemberController {
             @RequestBody @Valid UpdateMemberRequest request) {
         memberService.update(id, request.getEmail());
         Member findMember = memberService.findOne(id);
-        return new UpdateMemberResponse(findMember.getId(), findMember.getEmail());
+        return new UpdateMemberResponse(findMember.getId(), findMember.getEmail(), findMember.getCoin());
     }
 
 
@@ -107,6 +108,7 @@ public class MemberController {
     static class UpdateMemberResponse{
         private Long id;
         private String email;
+        private Long coin;
     }
 
     @Data

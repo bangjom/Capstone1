@@ -38,7 +38,7 @@ public class BoardController {
     public CreatePostResponse createPost(@RequestBody @Valid CreatePostRequest request){
         Post post = new Post();
         PostContent postContent = new PostContent();
-        Member findmember =  memberService.findOneByEmial(request.getEmail());
+        Member findmember =  memberService.findOneByEmail(request.getEmail());
         Board  findboard =  boardService.findOneByName(request.getBoard());
         post.setMember(findmember);
         post.setName(request.getName());
@@ -50,7 +50,6 @@ public class BoardController {
         postContent.setContent(request.getContent());
         boardService.createPostContent(postContent);
         return new CreatePostResponse(postId,post.getName());
-
     }
 
     @GetMapping("/board")
