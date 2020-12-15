@@ -59,6 +59,14 @@ public class BoardController {
         return new Result(posts.size(), posts);
     }
 
+    @GetMapping("/board/")
+    public PostResponse searchPost(@RequestParam(value="name") @Valid String name,
+                                   @RequestParam(value="id") @Valid Long id){
+        Board findBoard = boardService.findOneByName(name);
+        PostDto posts = boardService.findOnePosts(findBoard.getId(), id);
+        return new PostResponse(posts.getTitle(), posts.getContent());
+    }
+
     @Data
     @AllArgsConstructor
     static class Result<T>{
@@ -69,6 +77,7 @@ public class BoardController {
     @Data
     @AllArgsConstructor
     public static class PostDto{
+        private Long id;
         private String title;
         private String email;
         private String content;
@@ -86,6 +95,20 @@ public class BoardController {
     static class CreateBoardRequest {
         private String name;
     }
+
+    @Data
+    @AllArgsConstructor
+    static class PostResponse{
+        private String title;
+        private String content;
+    }
+
+    @Data
+    static class PostRequest {
+        private Long id;
+    }
+
+
 
     @Data
     @AllArgsConstructor

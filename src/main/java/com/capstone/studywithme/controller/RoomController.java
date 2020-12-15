@@ -19,10 +19,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RoomController {
     private final RoomService roomService;
+    private final MemberService memberService;
 
     @PostMapping("/room/join")
     public JoinRoomResponse joinRoom(@RequestBody JoinRoomRequest request){
         Room findRoom = roomService.authenticate(request.getEmail(), request.getName(), request.getPasscode());
+        if(findRoom.getIs_private())
+            memberService.updateCoin(request.getEmail(), Long.valueOf(100));
         return new JoinRoomResponse(findRoom.getId(), findRoom.getName());
     }
 
@@ -30,6 +33,10 @@ public class RoomController {
     public CreateRoomResponse makeRoom(@RequestBody CreateRoomRequest request){
         Room room = new Room();
         room.setName(request.getName());
+        room.setInvite_link("for test");
+        room.setIs_private(request.getIs_private());
+        room.setCreated_at(LocalDateTime.now());
+        room.setUpdated_at(LocalDateTime.now());
 
         if(request.getIs_private() == true) {
             if (request.getPasscode() != null)
@@ -41,11 +48,9 @@ public class RoomController {
         else
             room.setPasscode(null);
 
-        room.setInvite_link("for test");
-        room.setIs_private(request.getIs_private());
-        room.setCreated_at(LocalDateTime.now());
-        room.setUpdated_at(LocalDateTime.now());
         Long id = roomService.makeRoom(request.getEmail(), room);
+        if(room.getIs_private())
+            memberService.updateCoin(request.email, Long.valueOf(200));
         return new CreateRoomResponse(id,room.getName());
     }
 
@@ -66,6 +71,8 @@ public class RoomController {
         Room findRoom = roomService.findOne(id);
         return new UpdateRoomResponse(findRoom.getId(), findRoom.getName());
     }
+
+
 
     @Data
     @AllArgsConstructor

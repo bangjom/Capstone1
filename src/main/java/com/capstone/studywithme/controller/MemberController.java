@@ -58,6 +58,20 @@ public class MemberController {
         return new CreateMemberResponse(one.getId());
     }
 
+    @PostMapping("/coin")
+    public CoinResponse memberUseCoin(@RequestBody CoinRequest request){
+        memberService.updateCoin(request.email, request.coin);
+        Member findMember = memberService.findOneByEmail(request.email);
+        return new CoinResponse(findMember.getCoin());
+    }
+
+    @GetMapping("/getcoin")
+    public GetCoinResponse memberGetCoin(@RequestParam("email") String email){
+        Member findMember = memberService.findOneByEmail(email);
+        return new GetCoinResponse(findMember.getCoin());
+    }
+
+
     @PutMapping("/members/{id}")
     public UpdateMemberResponse updateMember(
             @PathVariable("id") Long id,
@@ -80,6 +94,34 @@ public class MemberController {
     static class MemberDto{
         private String email;
     }
+
+    @Data
+    static class CoinRequest {
+        @NotEmpty
+        private String email;
+
+        @NotEmpty
+        private Long coin;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class CoinResponse{
+        private Long coin;
+    }
+
+    @Data
+    static class GetCoinRequest {
+        @NotEmpty
+        private String email;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class GetCoinResponse {
+        private Long coin;
+    }
+
 
 
     @Data
@@ -122,5 +164,6 @@ public class MemberController {
     static class SearchMemberResponse{
         private String accessToken;
     }
+
 
 }

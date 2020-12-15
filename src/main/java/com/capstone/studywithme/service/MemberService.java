@@ -47,14 +47,6 @@ public class MemberService {
         }
     }
 
-    @Transactional
-    public void updateCoin(Member member, Long coin){
-        Long tempCoin;
-        Member uMember = memberRepository.findOne(member.getId());
-        tempCoin = uMember.getCoin() + coin;
-        uMember.setCoin(tempCoin);
-        memberRepository.save(uMember);
-    }
 
     public List<Member> findMembers(){return memberRepository.findAll();}
 
@@ -68,4 +60,12 @@ public class MemberService {
         member.setEmail(email);
         memberRepository.save(member);
     }
+
+    @Transactional
+    public void updateCoin(String email, Long coin){
+        Member uMember = memberRepository.findOneByEmail(email);
+        uMember.setCoin(uMember.getCoin()-coin);
+        memberRepository.save(uMember);
+    }
+
 }
