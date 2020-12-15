@@ -35,7 +35,6 @@ public class RoomService {
         if(!passwordEncoder.matches(password,findRooms.get(0).getPasscode())){
             throw new PasswordWrongException();
         }
-  //      memberService.updateCoin(memberService.findOneByEmail(email), Long.valueOf(-100));
         return findRooms.get(0);
     }
 
