@@ -39,9 +39,22 @@ public class BoardRepository {
             .getResultList()
             .stream()
             .map(m -> {
-                return new PostDto(m.getPost().getName(),m.getPost().getMember().getEmail(),m.getContent(),m.getPost().getCreated_at());
+                return new PostDto(m.getId(),m.getPost().getName(),m.getPost().getMember().getEmail(),m.getContent(),m.getPost().getCreated_at());
             })
             .collect(Collectors.toList());
+    }
+
+    public PostDto findOnePost(Long boardId, Long postId){
+        return em.createQuery("select pc from PostContent pc inner join pc.post p where  p.board.id = :id",
+                PostContent.class)
+                .setParameter("id",boardId)
+                .getResultList()
+                .stream()
+                .map(m -> {
+                    return new PostDto(m.getId(),m.getPost().getName(),m.getPost().getMember().getEmail(),m.getContent(),m.getPost().getCreated_at());
+                })
+                .collect(Collectors.toList())
+                .get(Integer.valueOf((int) (postId-1)));
     }
 
     public void savePost(Post post) {

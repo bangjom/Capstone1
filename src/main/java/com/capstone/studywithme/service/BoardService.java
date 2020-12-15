@@ -54,6 +54,7 @@ public class BoardService {
 
     public List<PostDto> findPosts(Long boardId) {return boardRepository.findPosts(boardId);}
 
+    public PostDto findOnePosts(Long boardId, Long postId) {return boardRepository.findOnePost(boardId,postId);}
 
 }
 
